@@ -1,7 +1,7 @@
 import unittest
 from flask import current_app
 from app import create_app, db
-from app.models import User
+from app.models import User, Permissions, Role
 
 class BasicsTestCase(unittest.TestCase):
     def setUp(self):
@@ -55,3 +55,12 @@ class UserModelTestCase(unittest.TestCase):
         token = u.generate_reset_token()
         self.assertTrue(u.reset_password(token, 'newpassword'))
         self.assertTrue(u.verify_password('newpassword'))
+
+    def test_permissions(self):
+        Role.insert_roles()
+        u1 = User(username='cat', email='yongjianw_92@163.com')
+        u2 = User(username='sog', email='aa@aa.com')
+        self.assertTrue(u1.is_administrator())
+        self.assertTrue(u1.can(Permissions.MODERATE_COMMENTS))
+        self.assertFalse(u2.is_administrator())
+        self.assertFalse(u2.can(Permissions.ADMINISTER))
