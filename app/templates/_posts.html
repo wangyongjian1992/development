@@ -1,0 +1,35 @@
+<ul class="posts">
+    <div style="margin: 0px 365px 0px 14%;padding: 20px 15px 20px 15px;background-color: white">
+        {% for post in posts %}
+        <li class="post">
+            <div class="post-thumbnail">
+                <div style="float: left;">
+                    <a href="{{ url_for('.user', username=post.author.username) }}">
+                        <img class="img-rounded profile-thumbnail" src="{{ post.author.gravatar(size=50) }}">
+                    </a>
+                </div>
+                <div style="position: relative;margin:0px 0px 0px 70px;">
+                    <a href="{{ url_for('.user', username=post.author.name) }}">
+                        <p style="font-family: FangSong;font-size: 16px">{{ post.author.name }} {% if post.author.is_administrator() %}<img src="{{ url_for('static', filename='v3.png') }}">{% else %} {% endif %}
+                        </p>
+                    </a>
+                </div>
+
+                <div style="position: relative;margin:0px 0px 0px 70px;">
+                    <div class="post-date">
+                        <p style="font-size: 5px">{{ moment(post.timestamp).fromNow() }}</p>
+                    </div>
+
+                    <div class="post-body">
+                        {% if post.body_html %} {{ post.body_html | safe }} {% else %} {{ post.body }} {% endif %}
+                    </div>
+                    <div style="margin: 10px 0px 10px 300px">
+                        <a href="{{ url_for('.post', id=post.id) }}">
+                            <span class="label label-default">查看更多</span>
+                        </a>
+                    </div>
+                </div>
+        </li>
+        {% endfor %}
+        </div>
+</ul>

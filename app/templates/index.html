@@ -1,9 +1,11 @@
-{% extends "base.html" %}
-
-{% block title %}Flasky{% endblock %}
-
-{% block page_content %}
+{% extends "base.html" %} {% import "bootstrap/wtf.html" as wtf %} {% block title %}Flasky{% endblock %} {% block page_content %}
 <div class="page-header">
-    <h1>Hello, {% if current_user.is_authenticated %}{{ current_user.username }}{% else %}Stranger{% endif %}!</h1>
+    <div>
+        <h1>Hello, {% if current_user.is_authenticated %}{{ current_user.username }}{% else %}Stranger{% endif %}!</h1>
+    </div>
 </div>
-{% endblock %}
+<div style="margin: 0px 32% 0px 17%;padding:15px 10px 15px 10px;background-color:white">
+    {% if current_user.can(Permission.WRITE_ARTICLE) %} {{ wtf.quick_form(form) }} {% endif %}
+</div>
+<p> </p>
+{% include '_posts.html' %} {% endblock %}
