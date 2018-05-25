@@ -1,7 +1,7 @@
 <ul class="posts">
-    <div style="margin: 0px 365px 0px 14%;padding: 20px 15px 20px 15px;background-color: white">
-        {% for post in posts %}
-        <li class="post">
+    {% for post in posts %}
+    <div style="margin: 0px 365px 0px 14%;padding:15px 5px 15px 10px;background-color: white">
+        <li style="list-style-type: none;">
             <div class="post-thumbnail">
                 <div style="float: left;">
                     <a href="{{ url_for('.user', username=post.author.username) }}">
@@ -9,7 +9,7 @@
                     </a>
                 </div>
                 <div style="position: relative;margin:0px 0px 0px 70px;">
-                    <a href="{{ url_for('.user', username=post.author.name) }}">
+                    <a href="{{ url_for('.user', username=post.author.username) }}">
                         <p style="font-family: FangSong;font-size: 16px">{{ post.author.name }} {% if post.author.is_administrator() %}<img src="{{ url_for('static', filename='v3.png') }}">{% else %} {% endif %}
                         </p>
                     </a>
@@ -30,6 +30,7 @@
                     </div>
                 </div>
         </li>
-        {% endfor %}
         </div>
+        <div style="height: 15px;"></div>
+        {% endfor %}
 </ul>
