@@ -1,16 +1,16 @@
 <ul class="posts">
     {% for post in posts %}
-    <div style="margin: 0px 365px 0px 14%;padding:15px 5px 15px 10px;background-color: white">
+    <div style="padding:15px 5px 15px 10px;background-color: white">
         <li style="list-style-type: none;">
             <div class="post-thumbnail">
-                <div style="float: left;">
+                <div style="float: left;width:50px;height: 50px;border-radius:100%;overflow: hidden;">
                     <a href="{{ url_for('.user', username=post.author.username) }}">
                         <img class="img-rounded profile-thumbnail" src="{{ post.author.gravatar(size=50) }}">
                     </a>
                 </div>
                 <div style="position: relative;margin:0px 0px 0px 70px;">
-                    <a href="{{ url_for('.user', username=post.author.username) }}">
-                        <p style="font-family: FangSong;font-size: 16px">{{ post.author.name }} {% if post.author.is_administrator() %}<img src="{{ url_for('static', filename='v3.png') }}">{% else %} {% endif %}
+                    <a style="text-decoration:none" href="{{ url_for('.user', username=post.author.username) }}">
+                        <p style="font-family: SimHei;font-size: 16px;color:black"><b>{{ post.author.name }}</b> {% if post.author.is_administrator() %}<img src="{{ url_for('static', filename='v3.png') }}">{% else %} {% endif %}
                         </p>
                     </a>
                 </div>
@@ -28,9 +28,20 @@
                             <span class="label label-default">查看更多</span>
                         </a>
                     </div>
+                    <div style="margin: 10px 0px 10px 20px">
+                        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <a href=""><img src="{{ url_for('static', filename='repost.png') }}">&nbsp;转发</img>
+                            </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <a href=""><img src="{{ url_for('static', filename='comments.png') }}">&nbsp;评论</img>
+                            </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <a href=""><img src="{{ url_for('static', filename='heart_fill.png') }}">&nbsp;喜欢</img>
+                            </a>
+                        </p>
+                    </div>
                 </div>
         </li>
         </div>
-        <div style="height: 15px;"></div>
+        <div style="height: 15px;">
+        </div>
         {% endfor %}
 </ul>

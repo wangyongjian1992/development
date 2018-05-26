@@ -5,7 +5,14 @@
     </div>
 </div>
 <div style="margin: 0px 32% 0px 17%;padding:15px 10px 15px 10px;background-color:white">
-    {% if current_user.can(Permission.WRITE_ARTICLE) %} {{ wtf.quick_form(form) }} {% endif %}
+    {% if current_user.can(Permission.WRITE_ARTICLE) %}
+    <p style="font-family: STXingkai;font-size: 20px;color:royalblue">有什么新鲜事想要告诉大家？</p>{{ wtf.quick_form(form) }}
+    <div style="height: 15px;"></div> {% endif %}
 </div>
-<p> </p>
-{% include '_posts.html' %} {% endblock %}
+<div style="height: 15px;width: 100px;">
+</div>
+<div style="margin: 0px 365px 0px 13.5%;">
+    {% include '_posts.html' %}
+</div>
+
+{% endblock %}

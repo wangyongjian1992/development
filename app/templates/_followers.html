@@ -1,0 +1,18 @@
+<ul>
+    {% for follow in follows %}
+    <div style="margin: 0px 0 10px 0px;height: 160px;padding: 15px 0px 0px 10px; width: 622px;background-color: white">
+        <div style="margin: 40px 0 0 10px; float: left;width:50px;height: 50px;border-radius:100%;overflow: hidden;">
+            <a href="{{ url_for('.user', username = follow.follower.username) }}">
+                <img class="img-rounded profile-thumbnail" src="{{ follow.follower.gravatar(size=50) }}">
+            </a>
+        </div>
+        <div style="position: relative;margin:0px 0px 0px 85px;">
+            <a style="text-decoration:none" href="{{ url_for('.user', username=follow.follower.username) }}">
+                <p style="font-family: SimHei;font-size: 16px;color:black"><b>{{ follow.follower.name }}</b>
+                </p>
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+
+</ul>
