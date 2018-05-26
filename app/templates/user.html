@@ -28,35 +28,43 @@
     </div>
 </div>
 <div style="height: 10px;"></div>
-<div style="float: left;margin: 0px 0px 0px 100px;width:270px;height:500px;">
-    <div style="padding: 15px 10px 5px; height: 90px; background-color: white">
+<div style="float: left;margin: 0px 0px 0px 100px;width:270px;height:500px; ">
+    <div style="padding: 15px 10px 5px; height: 90px;background-color: white">
         <table width="250px" height="50px">
             <tr>
                 <td width="70px" align="center">
-                    <p style="font-size: 18px "><a href="{{ url_for('.followers', username=user.username) }}">{{ user.followed.count() }}</a></p>
-                    <p style="color:#808080 "><a href="{{ url_for('.followers', username=user.username) }}">关注</a></p>
+                    <p style="font-size: 18px "><a style="text-decoration: none" href="{{ url_for('.followed', username=user.username) }}">{{ user.followed.count() }}</a></p>
+                    <p style="color:#808080 "><a style="text-decoration: none" href="{{ url_for('.followed', username=user.username) }}">关注</a></p>
                 </td>
                 <td width="70px" align="center">
-                    <p style="font-size: 18px ">{{ user.followers.count() }}</p>
-                    <p style="color:#808080 ">粉丝</p>
+                    <p style="font-size: 18px ">
+                        <a style="text-decoration: none" href="{{ url_for('.followers', username=user.username) }}">{{ user.followers.count() }}</a>
+                    </p>
+                    <p style="color:#808080 ">
+                        <a style="text-decoration: none" href="{{ url_for('.followers', username=user.username) }}">粉丝</a>
+                    </p>
                 </td>
                 <td width="70px" align="center">
-                    <p style="font-size: 18px ">{{ user.posts.count() }}</p>
-                    <p style="color:#808080 ">发表</p>
+                    <p style="font-size: 18px ">
+                        <a style="text-decoration: none" href="{{ url_for('.followers', username=user.username) }}">{{ user.posts.count() }}</a>
+                    </p>
+                    <p style="color:#808080 ">
+                        <a style="text-decoration: none" href="{{ url_for('.followers', username=user.username) }}">发表</a>
+                    </p>
                 </td>
             </tr>
         </table>
     </div>
     <div style="height: 10px; "></div>
     <div style="height: 150px; background-color: white ">
-        <p align="center ">
-
-            {% if current_user == user %}<a class="btn btn-default " href="{{ url_for( '.edit_profile') }} ">编辑个人资料 ></a> {% endif %} {% if current_user.is_administrator() %}
-            <a class="btn btn-danger " href="{{ url_for( '.edit_profile_admin', id=user.id) }} ">Edit Profile [Admin]</a> {% endif %}
-        </p>
+        <div style="padding :115px 0 0 40px">
+            {% if current_user == user %}
+            <a style="text-decoration: none" href="{{ url_for( '.edit_profile') }} ">编辑个人资料 >></a> {% endif %} {% if current_user.is_administrator() %}
+            <a style="text-decoration: none" href="{{ url_for( '.edit_profile_admin', id=user.id) }} ">超级修改 >> </a> {% endif %}
+        </div>
     </div>
 </div>
-<div style="position: relative; ">
+<div>
     <div style="padding: 10px 0px 0px 20px; margin: 0px 0px 0px 389px;width:622px;height:40px;background-color:white ">
         <p>
             <a href=" ">全部</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

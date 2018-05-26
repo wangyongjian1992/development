@@ -7,8 +7,29 @@
 <div style="margin: 0px 32% 0px 17%;padding:15px 10px 15px 10px;background-color:white">
     {% if current_user.can(Permission.WRITE_ARTICLE) %}
     <p style="font-family: STXingkai;font-size: 20px;color:royalblue">有什么新鲜事想要告诉大家？</p>{{ wtf.quick_form(form) }}
-    <div style="height: 15px;"></div> {% endif %}
+    <div style="height: 15px;"></div> {% endif %} {% for pack_data in pack_list %}
+    <div style="padding: 10px 5px 15px 30px; height: 110px;width: 560px; background-color: white">
+        <div style="width: 560px">
+            <a href="{{ pack_data.passage_url }}">
+                <p style="color:black; font-size: 20px;"><b>{{ pack_data.passage_title }}</b></p>
+            </a>
+        </div>
+        <div style="width: 140px; height: 85px;overflow: hidden; float: left;">
+            <a href="{{ pack_data.passage_url }}"><img style="width: 140px;height: 85px;display: block" src="{{ pack_data.image_url }}"></img>
+            </a>
+        </div>
+        {% for l_p in pack_data.little_passages %}
+        <div style="position: relative; margin: 5px 0px 0px 180px">
+            <a href="{{ l_p.little_passage_url }}">
+                <p>{{ l_p.little_passage_title }}</p>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+    <div style="width: 10px;height: 30px;"></div>
+    {% endfor %}
 </div>
+
 <div style="height: 15px;width: 100px;">
 </div>
 <div style="margin: 0px 365px 0px 13.5%;">

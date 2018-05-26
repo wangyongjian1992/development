@@ -6,8 +6,9 @@ from ..email import send_email
 from . import main
 from .forms import NameForm, EditProfileForm, EditProfileAdminForm, PostForm
 from flask_login import login_required, current_user
-from ..decorators import admin_required
+from ..decorators import admin_required, permission_required
 from ..models import User, Role, Permissions, Post
+from ..crawler import make_data
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
@@ -19,7 +20,8 @@ def index():
         db.session.commit()
         return redirect(url_for('.index'))
     posts = Post.query.order_by(Post.timestamp.desc()).all()
-    return render_template('index.html', form=form, posts=posts)
+    pack_list = make_data()
+    return render_template('index.html', form=form, posts=posts, pack_list=pack_list)
 
 @main.route('/user/<username>')
 def user(username):
@@ -77,3 +79,55 @@ def edit_profile_admin(id):
 def post(id):
     post = Post.query.get_or_404(id)
     return render_template('post.html', posts=[post])
+
+@main.route('/follow/<username>')
+@login_required
+@permission_required(Permissions.FOLLOW)
+def follow(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        flash('Invalid user.')
+        return redirect(url_for('.index'))
+    if current_user.is_following(user):
+        flash('You are already following this user.')
+        return redirect(url_for('.user', username=username))
+    current_user.follow(user)
+    flash('You are now following %s.' % username)
+    return redirect(url_for('.user', username=username))
+
+
+@main.route('/unfollow/<username>')
+@login_required
+@permission_required(Permissions.FOLLOW)
+def unfollow(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        flash('Invalid user.')
+        return redirect(url_for('.index'))
+    if not current_user.is_following(user):
+        flash('You are not following this user.')
+        return redirect(url_for('.user', username=username))
+    current_user.unfollow(user)
+    flash('You are not following %s anymore.' % username)
+    return redirect(url_for('.user', username=username))
+
+
+@main.route('/followers/<username>')
+def followers(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        flash('Invalid user.')
+        return redirect(url_for('.index'))
+    follows = user.followers.all()
+    print follows
+    print type(follows[0])
+    return render_template('followers.html', user=user, follows=follows)
+
+@main.route('/followed/<username>')
+def followed(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        flash('Invalid user.')
+        return redirect(url_for('.index'))
+    follows = user.followed.all()
+    return render_template('followers.html', user=user, follows=follows)

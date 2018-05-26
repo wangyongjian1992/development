@@ -11,6 +11,9 @@
                 <p style="font-family: SimHei;font-size: 16px;color:black"><b>{{ follow.follower.name }}</b>
                 </p>
             </a>
+            {% if follow.follower.about_me %}
+            <p>简介：{{ follow.follower.about_me }}</p>
+            {% endif %}
         </div>
     </div>
     {% endfor %}
