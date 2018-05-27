@@ -4,30 +4,80 @@
         <h1>Hello, {% if current_user.is_authenticated %}{{ current_user.username }}{% else %}Stranger{% endif %}!</h1>
     </div>
 </div>
-<div style="margin: 0px 32% 0px 17%;padding:15px 10px 15px 10px;background-color:white">
+<div style="float: left; height: 100%;width: 150px; margin: 0px 0px 0px 30px ;">
+    <div class="index_change_color">
+        <p style="font-size: 13px; color:white"><a style="text-decoration:none;color:white" href="{{ url_for('main.index') }}"><b>首页</b></a></p>
+    </div>
+    <div class="index_change_color">
+        <p style="font-size: 13px; color:white"><b>与我相关</b>
+        </p>
+    </div>
+    <div class="index_change_color_border">
+        <div style="margin-top:13px;  width:150px;height: 3px; background-color: rgba(255, 255, 255, 0.2)"></div>
+    </div>
+    <div class="index_change_color">
+        <p style="font-size: 13px; color:white"><b>每周热点</b>
+        </p>
+    </div>
+    <div class="index_change_color">
+        <p style="font-size: 13px; color:white"> <b>好友圈</b>
+        </p>
+    </div>
+    <div class="index_change_color_border">
+        <div style="margin-top:13px;  width:150px;height: 3px; background-color: rgba(255, 255, 255, 0.2)"></div>
+    </div>
+    <div class="index_change_color">
+        <p style="font-size: 13px; color:white"><a style="text-decoration:none;color:white" href="{{ url_for('main.geography') }}"><b>国家地理</b></a>
+        </p>
+    </div>
+    <div class="index_change_color">
+        <p style="font-size: 13px; color:white"><b>摄影学习</b>
+        </p>
+    </div>
+    <div class="index_change_color">
+        <p style="font-size: 13px; color:white"><b>视频电影</b>
+        </p>
+    </div>
+    <div class="index_change_color">
+        <p style="font-size: 13px; color:white"> <b>情感生活 </b>
+        </p>
+    </div>
+    <div class="index_change_color">
+        <p style="font-size: 13px; color:white"><b>同学 </b>
+        </p>
+    </div>
+    <div class="index_change_color">
+        <p style="font-size: 13px; color:white"><b>羽毛球 </b>
+        </p>
+    </div>
+    <div class="index_change_color">
+        <p style="font-size: 13px; color:white"><b>互联网 </b>
+        </p>
+    </div>
+    <div class="index_change_color">
+        <p style="font-size: 13px; color:white"><b>美妆 </b>
+        </p>
+    </div>
+    <div class="index_change_color">
+        <p style="font-size: 13px; color:white"><b>跟我一起学Python</b>
+        </p>
+    </div>
+    <div class="index_change_color_border">
+        <div style="margin-top:13px;  width:150px;height: 3px; background-color: rgba(255, 255, 255, 0.2)"></div>
+    </div>
+    <div class="index_change_color">
+        <p style="font-size: 13px; color:white"><b>充值</b>
+        </p>
+    </div>
+    <div class="index_change_color">
+        <p style="font-size: 13px; color:white"><b>客服</b>
+        </p>
+    </div>
+</div>
+<div style=" margin: 0px 32% 0px 17%;padding:15px 10px 15px 10px;background-color:white;">
     {% if current_user.can(Permission.WRITE_ARTICLE) %}
     <p style="font-family: STXingkai;font-size: 20px;color:royalblue">有什么新鲜事想要告诉大家？</p>{{ wtf.quick_form(form) }}
-    <div style="height: 15px;"></div> {% endif %} {% for pack_data in pack_list %}
-    <div style="padding: 10px 5px 15px 30px; height: 110px;width: 560px; background-color: white">
-        <div style="width: 560px">
-            <a href="{{ pack_data.passage_url }}">
-                <p style="color:black; font-size: 20px;"><b>{{ pack_data.passage_title }}</b></p>
-            </a>
-        </div>
-        <div style="width: 140px; height: 85px;overflow: hidden; float: left;">
-            <a href="{{ pack_data.passage_url }}"><img style="width: 140px;height: 85px;display: block" src="{{ pack_data.image_url }}"></img>
-            </a>
-        </div>
-        {% for l_p in pack_data.little_passages %}
-        <div style="position: relative; margin: 5px 0px 0px 180px">
-            <a href="{{ l_p.little_passage_url }}">
-                <p>{{ l_p.little_passage_title }}</p>
-            </a>
-        </div>
-        {% endfor %}
-    </div>
-    <div style="width: 10px;height: 30px;"></div>
-    {% endfor %}
+    <div style="height: 15px;"></div> {% endif %} {% if category==1 %} {% include '_hots.html' %} {% else %} {% include '_geography.html' %} {% endif %}
 </div>
 
 <div style="height: 15px;width: 100px;">
@@ -35,5 +85,8 @@
 <div style="margin: 0px 365px 0px 13.5%;">
     {% include '_posts.html' %}
 </div>
-
+<div style="margin: 0 0 0 800px; width: 490px;height: 300px;position: fixed;top:180px;right:5px">
+    <video autoplay="autoplay" style="width: 490px;height: 300px;" controls="controls" src="http://video19.ifeng.com/video09/2018/05/27/29124433-102-009-162728.mp4?vid=3f6622ca-ef90-4fe0-87ee-82c96b380061&uid=1527332455367_t0o6p3325&from=v_Free&pver=vHTML5Player_v2.0.0&amp;sver=&se=%E5%8E%86%E5%8F%B2%E4%B8%80%E7%BD%91&cat=129-133&ptype=129&amp;platform=pc&sourceType=h5&dt=1527409557000&gid=jJmzgWOhDGrJ&sign=9970ae1e8b5a0a5cdcb21d147a4baff1&tm=1527415335627&vkey=Y%2BStekz%2BsGro5I8UQe3XtETYBqbWuLbxZVREpZJoWQnNSx5aqop9XafW5t3gP57YyHAGuIeOBf7ovCY%2BLx9mbM3S3Ff49EPCwXG8FQ0SclsVYUmQHOefN%2FJ0vu4k7wwY6eLnJ7RV7UvvwOY4oCmLYtd8Fbu%2FYSKb2Uv%2BvfNxjDDGWPmiF3eH4VcAJdZLeTWtRDMyRb0N8yamqGrRF6ZKZ89Di5yTaV%2BtsUUl7hDyYQ%2FfkMBOBzH4CgViKag8dqDJTy4DeWt9H1iogQKsjNYFcIwZoUEuZXvPcaY5HLqe4lU9xXbHyoB%2FXiHrmRb99AwU">
+        </video>
+</div>
 {% endblock %}

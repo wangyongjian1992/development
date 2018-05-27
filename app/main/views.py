@@ -8,7 +8,7 @@ from .forms import NameForm, EditProfileForm, EditProfileAdminForm, PostForm
 from flask_login import login_required, current_user
 from ..decorators import admin_required, permission_required
 from ..models import User, Role, Permissions, Post
-from ..crawler import make_data
+from ..crawler import make_data_for_index, make_data_for_internation_geography
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
@@ -20,8 +20,22 @@ def index():
         db.session.commit()
         return redirect(url_for('.index'))
     posts = Post.query.order_by(Post.timestamp.desc()).all()
-    pack_list = make_data()
-    return render_template('index.html', form=form, posts=posts, pack_list=pack_list)
+    pack_list = make_data_for_index()
+    return render_template('index.html', form=form, posts=posts, pack_list=pack_list, category=1)
+
+@main.route('/geography', methods=['GET', 'POST'])
+def geography():
+    form = PostForm()
+    if current_user.can(Permissions.WRITE_ARTICLE) and form.validate_on_submit():
+        post = Post(body=form.body.data,
+                    author=current_user._get_current_object())
+        db.session.add(post)
+        db.session.commit()
+        return redirect(url_for('.index'))
+    posts = Post.query.order_by(Post.timestamp.desc()).all()
+    pack_list = make_data_for_internation_geography()
+    return render_template('index.html', form=form, posts=posts, pack_list=pack_list, category=2)
+
 
 @main.route('/user/<username>')
 def user(username):
@@ -119,9 +133,7 @@ def followers(username):
         flash('Invalid user.')
         return redirect(url_for('.index'))
     follows = user.followers.all()
-    print follows
-    print type(follows[0])
-    return render_template('followers.html', user=user, follows=follows)
+    return render_template('followers.html', user=user, follows=follows, er_or_ed=True)
 
 @main.route('/followed/<username>')
 def followed(username):
@@ -130,4 +142,5 @@ def followed(username):
         flash('Invalid user.')
         return redirect(url_for('.index'))
     follows = user.followed.all()
-    return render_template('followers.html', user=user, follows=follows)
+    print follows
+    return render_template('followers.html', user=user, follows=follows, er_or_ed=False)

@@ -1,0 +1,21 @@
+{% for pack_data in pack_list %}
+<div style="padding: 10px 5px 15px 30px; height: 110px;width: 560px; background-color: white">
+    <div style="width: 560px">
+        <a href="{{ pack_data.passage_url }}">
+            <p style="color:black; font-size: 20px;"><b>{{ pack_data.passage_title }}</b></p>
+        </a>
+    </div>
+    <div style="width: 140px; height: 85px;overflow: hidden; float: left;">
+        <a href="{{ pack_data.passage_url }}"><img style="width: 140px;height: 85px;display: block" src="{{ pack_data.image_url }}"></img>
+        </a>
+    </div>
+    {% for l_p in pack_data.little_passages %}
+    <div style="position: relative; margin: 5px 0px 0px 180px">
+        <a href="{{ l_p.little_passage_url }}">
+            <p>{{ l_p.little_passage_title }}</p>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+<div style="width: 10px;height: 30px;"></div>
+{% endfor %}

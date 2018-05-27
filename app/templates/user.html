@@ -46,10 +46,10 @@
                 </td>
                 <td width="70px" align="center">
                     <p style="font-size: 18px ">
-                        <a style="text-decoration: none" href="{{ url_for('.followers', username=user.username) }}">{{ user.posts.count() }}</a>
+                        <a style="text-decoration: none" href="{{ url_for('main.user', username=user.username) }}">{{ user.posts.count() }}</a>
                     </p>
                     <p style="color:#808080 ">
-                        <a style="text-decoration: none" href="{{ url_for('.followers', username=user.username) }}">发表</a>
+                        <a style="text-decoration: none" href="{{ url_for('main.user', username=user.username) }}">发表</a>
                     </p>
                 </td>
             </tr>
