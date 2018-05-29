@@ -4,10 +4,11 @@ from .. import db
 from ..models import User
 from ..email import send_email
 from . import main
-from .forms import NameForm, EditProfileForm, EditProfileAdminForm, PostForm
+from .forms import NameForm, EditProfileForm, EditProfileAdminForm, PostForm, \
+        CommentForm
 from flask_login import login_required, current_user
 from ..decorators import admin_required, permission_required
-from ..models import User, Role, Permissions, Post
+from ..models import User, Role, Permissions, Post, Comment
 from ..crawler import make_data_for_index, make_data_for_internation_geography
 
 @main.route('/', methods=['GET', 'POST'])
@@ -89,10 +90,19 @@ def edit_profile_admin(id):
     form.about_me.data = user.about_me
     return render_template('edit_profile.html', form=form, user=user)
 
-@main.route('/post/<int:id>')
+@main.route('/post/<int:id>', methods=['GET', 'POST'])
 def post(id):
     post = Post.query.get_or_404(id)
-    return render_template('post.html', posts=[post])
+    form = CommentForm()
+    if form.validate_on_submit():
+        comment = Comment(body=form.body.data,
+                          post=post,
+                          author=current_user._get_current_object())
+        flash('Your comment has been published!')
+        db.session.add(comment)
+        return redirect(url_for('.post', id=post.id))
+    comments = Comment.query.order_by(Comment.timestamp.asc()).all()
+    return render_template('post_single.html', post=post, form=form, comments=comments)
 
 @main.route('/follow/<username>')
 @login_required
