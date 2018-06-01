@@ -20,6 +20,12 @@ class Follow(db.Model):
     followed_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
+class Like(db.Model):
+    __tablename__ = 'likes'
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), primary_key=True)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+
 
 class Role(db.Model):
     __tablename__ = 'roles'
@@ -80,6 +86,8 @@ class User(UserMixin, db.Model):
                                lazy='dynamic',
                                cascade='all, delete-orphan')
     comments = db.relationship('Comment', backref='author', lazy='dynamic')
+    like_posts = db.relationship('Like', backref='user', lazy='dynamic')
+
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -177,6 +185,24 @@ class User(UserMixin, db.Model):
         return self.followers.filter_by(
             follower_id=user.id).first() is not None
 
+    def user_like_post(self, post):
+        if not self.is_liked_by_user(post):
+            l = Like(user=self, post=post)
+            db.session.add(l)
+
+    def user_not_like_post(self, post):
+        if self.is_liked_by_user(post):
+            l = self.like_posts.filter_by(post_id=post.id).first()
+            db.session.delete(l)
+
+    def is_liked_by_user(self, post):
+        for l in self.like_posts:
+            if post is l.post:
+                return True
+            else:
+                continue
+        return False
+
     def __repr__(self):
         return '<User %r>' % self.username
 
@@ -187,6 +213,26 @@ class Post(db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     auther_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     comments = db.relationship('Comment', backref='post', lazy='dynamic')
+    like_users = db.relationship('Like', backref='post', lazy='dynamic')
+'''
+    def user_like_post(self, user):
+        if not self.is_liked_by_user(user):
+            l = Like(user=user, post=self)
+            db.session.add(l)
+            db.session.commit()
+
+    def user_not_like_post(self, user):
+        if self.is_liked_by_user(user):
+            l = Like(user=user, post=self)
+            db.session.delete(l)
+            db.session.commit()
+
+    def is_liked_by_user(self, user):
+        if user in self.like_users:
+            return True
+        else:
+            return False
+'''
 
 class Comment(db.Model):
     __tablename__ = 'comments'

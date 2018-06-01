@@ -91,6 +91,7 @@ def edit_profile_admin(id):
     return render_template('edit_profile.html', form=form, user=user)
 
 @main.route('/post/<int:id>', methods=['GET', 'POST'])
+@login_required
 def post(id):
     post = Post.query.get_or_404(id)
     form = CommentForm()
@@ -152,5 +153,40 @@ def followed(username):
         flash('Invalid user.')
         return redirect(url_for('.index'))
     follows = user.followed.all()
-    print follows
     return render_template('followers.html', user=user, follows=follows, er_or_ed=False)
+
+@main.route('/like/<int:id>', methods=['GET', 'POST'])
+@login_required
+def like(id):
+    form = CommentForm()
+    post = Post.query.get_or_404(id)
+    current_user.user_like_post(post)
+    #post.user_like_post(current_user._get_current_object())
+    if form.validate_on_submit():
+        comment = Comment(body=form.body.data,
+                          post=post,
+                          author=current_user._get_current_object())
+        flash('Your comment has been published!')
+        db.session.add(comment)
+        return redirect(url_for('.post', id=post.id))
+    comments = Comment.query.order_by(Comment.timestamp.asc()).all()
+    return render_template('post_single.html', post=post, form=form, comments=comments)
+
+
+@main.route('/unlike/<int:id>', methods=['GET', 'POST'])
+@login_required
+def unlike(id):
+    form = CommentForm()
+    post = Post.query.get_or_404(id)
+    current_user.user_not_like_post(post)
+    #post.user_not_like_post(current_user._get_current_object())
+    if form.validate_on_submit():
+        comment = Comment(body=form.body.data,
+                          post=post,
+                          author=current_user._get_current_object())
+        flash('Your comment has been published!')
+        db.session.add(comment)
+        return redirect(url_for('.post', id=post.id))
+    comments = Comment.query.order_by(Comment.timestamp.asc()).all()
+    return render_template('post_single.html', post=post, form=form, comments=comments)
+
