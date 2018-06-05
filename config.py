@@ -15,6 +15,8 @@ class Config:
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     FLASKY_POSTS_PER_PAGE = 15
     FLASKY_FOLLOWERS_PER_PAGE = 15
+    REDIS_HOST = 'localhost'
+    REDIS_PORT = 6379
 
     @staticmethod
     def init_app(app):
@@ -24,6 +26,7 @@ class Config:
 class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = 'mysql://root:wangyongjian3@localhost/web_dev'
+    #SQLALCHEMY_POOL_RECYCLE = 60
 
 class TestingConfig(Config):
     TESTING = True

@@ -10,6 +10,7 @@ from flask_login import login_required, current_user
 from ..decorators import admin_required, permission_required
 from ..models import User, Role, Permissions, Post, Comment
 from ..crawler import make_data_for_index, make_data_for_internation_geography
+from manage import redis_conn
 
 @main.route('/', methods=['GET', 'POST'])
 def index():
@@ -20,8 +21,18 @@ def index():
         db.session.add(post)
         db.session.commit()
         return redirect(url_for('.index'))
-    posts = Post.query.order_by(Post.timestamp.desc()).all()
+    posts = []
+    try:
+        posts = redis_conn.lrange('posts', 0, -1)
+    except Exception as e:
+        print 'Redis Server may not be running!'
+    if len(posts) == 0:
+        posts = Post.query.order_by(Post.timestamp.desc()).all()
     pack_list = make_data_for_index()
+    print pack_list[0]
+    for k, v in pack_list[0].iteritems():
+        print k, '-------->', v
+
     return render_template('index.html', form=form, posts=posts, pack_list=pack_list, category=1)
 
 @main.route('/geography', methods=['GET', 'POST'])
