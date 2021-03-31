@@ -46,7 +46,7 @@ itsdangerous==0.24
 -e git+https://github.com/dpkp/kafka-python@24bf504cd894c85a861c6691e778359220e40323#egg=kafka_python-origin/HEAD
 kazoo==2.4.0
 lockfile==0.8
-lxml==3.3.3
+lxml==4.6.3
 numpy==1.8.2
 oauthlib==0.6.1
 oneconf==0.3.7
