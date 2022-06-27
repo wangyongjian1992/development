@@ -68,7 +68,7 @@ python-debian==0.1.21-nmu2ubuntu2
 python-editor==1.0.3
 pyxdg==0.25
 redis==2.10.6
-reportlab==3.0
+reportlab==3.5.55
 requests==2.2.1
 selenium==2.48.0
 sessioninstaller==0.0.0
